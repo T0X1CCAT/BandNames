@@ -18,7 +18,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 /**
  * Handler for requests to Lambda function.
  */
-public class App implements RequestHandler<APIGatewayProxyRequestEvent, Object> {
+public class SaveBandLambda implements RequestHandler<APIGatewayProxyRequestEvent, Object> {
 
     public APIGatewayProxyResponseEvent handleRequest(final APIGatewayProxyRequestEvent event, final Context context) {
         APIGatewayProxyResponseEvent response = new APIGatewayProxyResponseEvent();
@@ -35,7 +35,7 @@ public class App implements RequestHandler<APIGatewayProxyRequestEvent, Object> 
             Table table = dynamoDB.getTable("BandName");
             JsonNode bandName = node.get("bandName");
             logger.log("bandName " + bandName.textValue());
-            Item item = new Item().withPrimaryKey("bandName",bandName.textValue() );
+            Item item = new Item().withPrimaryKey("bandName",bandName.textValue() ).with("name", bandName.textValue());
             table.putItem(item);
             response.setStatusCode(200);
             response.setBody("{\"response\": \"SUCCESS\"}");
