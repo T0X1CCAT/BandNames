@@ -18,6 +18,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeSet;
 
@@ -44,6 +45,9 @@ public class GetBandsLambda implements RequestHandler<APIGatewayProxyRequestEven
             ObjectMapper objectMapper = new ObjectMapper();
 
             response.setStatusCode(200);
+            Map <String, String> headers = new HashMap();
+            headers.put("Access-Control-Allow-Origin", "*");
+            response.setHeaders(headers);
             response.setBody(objectMapper.writeValueAsString(names));
         }catch (Exception e) {
             response.setStatusCode(500);
